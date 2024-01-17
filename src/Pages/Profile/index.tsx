@@ -8,6 +8,7 @@ import {
   Platform,
   ScrollView,
   TextInput,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import {
@@ -25,8 +26,8 @@ import Input from '../../components/Input';
 
 import { useAuth } from '../../hooks/auth';
 import {
-  BackButton,
   Container,
+  HeaderContainer,
   Title,
   UserAvatar,
   UserAvatarButton,
@@ -41,7 +42,7 @@ interface ProfileFormData {
 }
 
 function Profile() {
-  const { user, updateUser } = useAuth();
+  const { user, updateUser, signOut } = useAuth();
   const formRef = useRef<FormHandles>(null);
   const navigation = useNavigation();
 
@@ -153,9 +154,16 @@ function Profile() {
         contentContainerStyle={{ flex: 1 }}
       >
         <Container>
-          <BackButton onPress={navigation.goBack}>
-            <Icon name="chevron-left" size={24} color="#999591" />
-          </BackButton>
+          <HeaderContainer>
+            <TouchableOpacity onPress={navigation.goBack}>
+              <Icon name="chevron-left" size={24} color="#999591" />
+            </TouchableOpacity>
+
+            <TouchableOpacity onPress={() => signOut()}>
+              <Icon name="power" size={24} color="#999591" />
+            </TouchableOpacity>
+          </HeaderContainer>
+
           <UserAvatarButton onPress={handleUpdateAvatar}>
             <UserAvatar source={{ uri: user.avatar_url }} />
           </UserAvatarButton>
