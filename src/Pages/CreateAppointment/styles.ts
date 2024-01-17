@@ -1,8 +1,6 @@
-import { FlatList } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
 import { getStatusBarHeight } from 'react-native-iphone-x-helper';
 import styled from 'styled-components/native';
-import { Provider } from './index';
 
 interface ProviderProps {
   selected: boolean;
@@ -52,18 +50,8 @@ export const ProvidersListContainer = styled.View`
   height: 112px;
 `;
 
-export const ProvidersList = styled(
-  FlatList as new () => FlatList<Provider>,
-).attrs({
-  contentContainerStyle: {
-    paddingTop: 32,
-    paddingBottom: 32,
-    paddingHorizontal: 24,
-  },
-})``;
-
 export const ProviderContainer = styled(RectButton)<ProviderProps>`
-  background: ${props => (props.selected ? '#ff9000' : '#3e3b47')};
+  background: ${(props) => (props.selected ? '#ff9000' : '#3e3b47')};
   flex-direction: row;
   align-items: center;
   padding: 8px 12px;
@@ -81,7 +69,7 @@ export const ProviderName = styled.Text<ProviderProps>`
   margin-left: 8px;
   font-family: 'RobotoSlab-Medium';
   font-size: 16px;
-  color: ${props => (props.selected ? '#232129' : '#f4ede8')};
+  color: ${(props) => (props.selected ? '#232129' : '#f4ede8')};
 `;
 
 export const Calendar = styled.View``;
@@ -131,15 +119,15 @@ export const SectionContent = styled.ScrollView.attrs({
 
 export const Hour = styled(RectButton)<HourProps>`
   padding: 12px;
-  background: ${props => (props.selected ? '#ff9000' : '#3e3b47')};
+  background: ${(props) => (props.selected ? '#ff9000' : '#3e3b47')};
   border-radius: 10px;
   margin-right: 8px;
 
-  opacity: ${props => (props.available ? 1 : 0.3)};
+  opacity: ${(props) => (props.available ? 1 : 0.3)};
 `;
 
 export const HourText = styled.Text<HourTextProps>`
-  color: ${props => (props.selected ? '#232129' : '#f4edef')};
+  color: ${(props) => (props.selected ? '#232129' : '#f4edef')};
   font-family: 'RobotoSlab-Regular';
   font-size: 16px;
 `;

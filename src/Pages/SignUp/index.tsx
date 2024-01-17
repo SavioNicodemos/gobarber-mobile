@@ -1,30 +1,30 @@
-import React, { useRef, useCallback } from 'react';
+import { useNavigation } from '@react-navigation/native';
+import { FormHandles } from '@unform/core';
+import { Form } from '@unform/mobile';
+import React, { useCallback, useRef } from 'react';
 import {
-  View,
+  Alert,
   Image,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
   TextInput,
-  Alert,
+  View,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
-import { useNavigation } from '@react-navigation/native';
-import { Form } from '@unform/mobile';
-import { FormHandles } from '@unform/core';
 import * as Yup from 'yup';
 
-import getValidationErrors from '../../utils/getValidationErrors';
 import api from '../../services/api';
+import getValidationErrors from '../../utils/getValidationErrors';
 
-import Input from '../../components/Input';
 import Button from '../../components/Button';
+import Input from '../../components/Input';
 
 import logoImg from '../../assets/logo.png';
 
-import { Container, Title, BackToSignIn, BackToSignInText } from './styles';
+import { BackToSignIn, BackToSignInText, Container, Title } from './styles';
 
-const SignUp: React.FC = () => {
+const SignUp = () => {
   const formRef = useRef<FormHandles>(null);
   const navigation = useNavigation();
 

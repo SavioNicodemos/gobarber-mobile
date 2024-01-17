@@ -1,36 +1,36 @@
-import React, { useRef, useCallback } from 'react';
+import { useNavigation } from '@react-navigation/native';
+import { FormHandles } from '@unform/core';
+import { Form } from '@unform/mobile';
+import React, { useCallback, useRef } from 'react';
 import {
-  View,
+  Alert,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
   TextInput,
-  Alert,
+  View,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { Form } from '@unform/mobile';
-import { FormHandles } from '@unform/core';
-import * as Yup from 'yup';
-import Icon from 'react-native-vector-icons/Feather';
 import {
-  launchImageLibrary,
   ImageLibraryOptions,
+  launchImageLibrary,
 } from 'react-native-image-picker';
+import Icon from 'react-native-vector-icons/Feather';
+import * as Yup from 'yup';
 
-import getValidationErrors from '../../utils/getValidationErrors';
 import api from '../../services/api';
+import getValidationErrors from '../../utils/getValidationErrors';
 
-import Input from '../../components/Input';
 import Button from '../../components/Button';
+import Input from '../../components/Input';
 
+import { useAuth } from '../../hooks/auth';
 import {
+  BackButton,
   Container,
   Title,
-  UserAvatarButton,
   UserAvatar,
-  BackButton,
+  UserAvatarButton,
 } from './styles';
-import { useAuth } from '../../hooks/auth';
 
 interface ProfileFormData {
   name: string;
@@ -40,7 +40,7 @@ interface ProfileFormData {
   password_confirmation: string;
 }
 
-const Profile: React.FC = () => {
+const Profile = () => {
   const { user, updateUser } = useAuth();
   const formRef = useRef<FormHandles>(null);
   const navigation = useNavigation();
@@ -56,14 +56,14 @@ const Profile: React.FC = () => {
 
   const handleUpdateAvatar = useCallback(
     () =>
-      launchImageLibrary(options, response => {
+      launchImageLibrary(options, (response) => {
         const data = new FormData();
 
         data.append('avatar', {
-          uri: response.uri,
+          uri: response.assets?.[0].uri,
           type: 'image/jpeg',
           name: `${user.id}.jpg`,
-        });
+        } as any);
 
         api.patch('users/avatar', data).then(apiResponse => {
           updateUser(apiResponse.data);
@@ -83,16 +83,19 @@ const Profile: React.FC = () => {
             .email('Digite um e-mail válido')
             .required('E-mail obrigatório'),
           old_password: Yup.string(),
-          password: Yup.string().when('old_password', {
-            is: (val: string) => !!val.length,
-            then: Yup.string().required('Campo obrigatório'),
-            otherwise: Yup.string(),
-          }),
+          password: Yup.string().when(
+            'old_password',
+            ([old_password], innerSchema) => {
+              return old_password
+                ? innerSchema.required('Campo obrigatório')
+                : innerSchema.notRequired();
+            },
+          ),
           password_confirmation: Yup.string()
-            .when('old_password', {
-              is: (val: string) => !!val.length,
-              then: Yup.string().required('Campo obrigatório'),
-              otherwise: Yup.string(),
+            .when('old_password', ([old_password], innerSchema) => {
+              return old_password
+                ? innerSchema.required('Campo obrigatório')
+                : innerSchema.notRequired();
             })
             .oneOf([Yup.ref('password')], 'Confirmação incorreta'),
         });

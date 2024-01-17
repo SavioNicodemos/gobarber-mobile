@@ -1,15 +1,15 @@
+import { useField } from '@unform/core';
 import React, {
-  useState,
+  forwardRef,
   useCallback,
   useEffect,
-  useRef,
   useImperativeHandle,
-  forwardRef,
+  useRef,
+  useState,
 } from 'react';
-import { TextInputProps } from 'react-native';
-import { useField } from '@unform/core';
+import { TextInputProps, TextInput as TextInputRN } from 'react-native';
 
-import { Container, TextInput, Icon } from './styles';
+import { Container, Icon, TextInput } from './styles';
 
 interface InputProps extends TextInputProps {
   name: string;
@@ -78,6 +78,7 @@ const Input: React.ForwardRefRenderFunction<InputRef, InputProps> = (
       />
 
       <TextInput
+        as={TextInputRN}
         ref={inputElementRef}
         keyboardAppearance="dark"
         placeholderTextColor="#666360"

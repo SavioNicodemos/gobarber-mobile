@@ -1,42 +1,38 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { Alert, Platform } from 'react-native';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import Icon from 'react-native-vector-icons/Feather';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { format } from 'date-fns';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { Alert, FlatList, Platform } from 'react-native';
+import Icon from 'react-native-vector-icons/Feather';
 
 import { useAuth } from '../../hooks/auth';
 import api from '../../services/api';
 
+import { CreateAppointmentNavProps } from '../../@dtos/routes';
 import {
-  Container,
-  Header,
   BackButton,
-  HeaderTitle,
-  UserAvatar,
-  Content,
-  ProvidersList,
-  ProvidersListContainer,
-  ProviderContainer,
-  ProviderAvatar,
-  ProviderName,
   Calendar,
-  Title,
-  OpenDatePickerButton,
-  OpenDatePickerButtonText,
-  Schedule,
-  Section,
-  SectionTitle,
-  SectionContent,
-  Hour,
-  HourText,
+  Container,
+  Content,
   CreateAppointmentButton,
   CreateAppointmentButtonText,
+  Header,
+  HeaderTitle,
+  Hour,
+  HourText,
+  OpenDatePickerButton,
+  OpenDatePickerButtonText,
+  ProviderAvatar,
+  ProviderContainer,
+  ProviderName,
+  ProvidersListContainer,
+  Schedule,
+  Section,
+  SectionContent,
+  SectionTitle,
+  Title,
+  UserAvatar,
 } from './styles';
-
-interface RouteParams {
-  providerId: string;
-}
 
 export interface Provider {
   id: string;
@@ -49,11 +45,11 @@ interface AvailabilityItem {
   available: boolean;
 }
 
-const CreateAppointment: React.FC = () => {
-  const route = useRoute();
+const CreateAppointment = () => {
+  const route = useRoute<CreateAppointmentNavProps['route']>();
   const { user } = useAuth();
-  const { goBack, navigate } = useNavigation();
-  const routeParams = route.params as RouteParams;
+  const { goBack, navigate } = useNavigation<CreateAppointmentNavProps['navigation']>();
+  const routeParams = route.params;
 
   const [availability, setAvailability] = useState<AvailabilityItem[]>([]);
   const [providers, setProviders] = useState<Provider[]>([]);
@@ -169,7 +165,12 @@ const CreateAppointment: React.FC = () => {
 
       <Content>
         <ProvidersListContainer>
-          <ProvidersList
+          <FlatList
+            contentContainerStyle={{
+              paddingTop: 32,
+              paddingBottom: 32,
+              paddingHorizontal: 24,
+            }}
             horizontal
             showsHorizontalScrollIndicator={false}
             data={providers}

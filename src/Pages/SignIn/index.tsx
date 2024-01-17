@@ -1,36 +1,37 @@
+import { useNavigation } from '@react-navigation/native';
 import React, { useCallback, useRef } from 'react';
 import {
-  View,
+  Alert,
   Image,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
   TextInput,
-  Alert,
+  View,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
-import { useNavigation } from '@react-navigation/native';
 import * as Yup from 'yup';
 
-import { Form } from '@unform/mobile';
 import { FormHandles } from '@unform/core';
+import { Form } from '@unform/mobile';
 
 import { useAuth } from '../../hooks/auth';
 
 import getValidationErrors from '../../utils/getValidationErrors';
 
-import Input from '../../components/Input';
 import Button from '../../components/Button';
+import Input from '../../components/Input';
 
 import logoImg from '../../assets/logo.png';
 
+import { SignInNavProps } from '../../@dtos/routes';
 import {
   Container,
-  Title,
-  ForgotPassword,
-  ForgotPasswordText,
   CreateAccountButton,
   CreateAccountButtonText,
+  ForgotPassword,
+  ForgotPasswordText,
+  Title,
 } from './styles';
 
 interface SignInFormData {
@@ -38,10 +39,10 @@ interface SignInFormData {
   password: string;
 }
 
-const SignIn: React.FC = () => {
+const SignIn = () => {
   const formRef = useRef<FormHandles>(null);
   const passwordInputRef = useRef<TextInput>(null);
-  const navigation = useNavigation();
+  const navigation = useNavigation<SignInNavProps['navigation']>();
 
   const { signIn } = useAuth();
 

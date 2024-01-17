@@ -1,25 +1,26 @@
-import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
+import React, { useCallback, useEffect, useState } from 'react';
 import Icon from 'react-native-vector-icons/Feather';
 
+import { FlatList } from 'react-native';
+import { DashboardNavProps } from '../../@dtos/routes';
 import { useAuth } from '../../hooks/auth';
+import api from '../../services/api';
 import {
   Container,
   Header,
   HeaderTitle,
-  UserName,
   ProfileButton,
-  UserAvatar,
-  ProvidersList,
-  ProvidersListTitle,
-  ProviderContainer,
   ProviderAvatar,
+  ProviderContainer,
   ProviderInfo,
-  ProviderName,
   ProviderMeta,
   ProviderMetaText,
+  ProviderName,
+  ProvidersListTitle,
+  UserAvatar,
+  UserName,
 } from './styles';
-import api from '../../services/api';
 
 export interface Provider {
   id: string;
@@ -27,11 +28,11 @@ export interface Provider {
   avatar_url: string;
 }
 
-const Dashboard: React.FC = () => {
+const Dashboard = () => {
   const [providers, setProviders] = useState<Provider[]>([]);
 
   const { user } = useAuth();
-  const { navigate } = useNavigation();
+  const { navigate } = useNavigation<DashboardNavProps['navigation']>();
 
   const navigateToProfile = useCallback(() => {
     navigate('Profile');
@@ -64,7 +65,12 @@ const Dashboard: React.FC = () => {
         </ProfileButton>
       </Header>
 
-      <ProvidersList
+      <FlatList
+        contentContainerStyle={{
+          paddingTop: 32,
+          paddingBottom: 16,
+          paddingHorizontal: 24,
+        }}
         data={providers}
         keyExtractor={provider => provider.id}
         ListHeaderComponent={

@@ -1,14 +1,21 @@
-import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
+import React from 'react';
 
+import AppointmentCreated from '../Pages/AppointmentCreated';
+import CreateAppointment from '../Pages/CreateAppointment';
 import Dashboard from '../Pages/Dashboard';
 import Profile from '../Pages/Profile';
-import CreateAppointment from '../Pages/CreateAppointment';
-import AppointmentCreated from '../Pages/AppointmentCreated';
 
-const App = createStackNavigator();
+export type IAppRoutes = {
+  Dashboard: undefined;
+  CreateAppointment: { providerId: string };
+  AppointmentCreated: { date: number };
+  Profile: undefined;
+};
 
-const AppRoutes: React.FC = () => (
+const App = createStackNavigator<IAppRoutes>();
+
+const AppRoutes = () => (
   <App.Navigator
     screenOptions={{
       headerShown: false,
