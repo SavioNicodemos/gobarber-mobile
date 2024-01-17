@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">This is the mobile version of an application for barbershops named GoBarber where you can make an appointment to your barber in the available hours. And
-the barber keep in track all clients schedule for the day. The backend can be accessed <a href="https://github.com/savionicodemos/gobarber-backend">here</a> and the frontend 
+the barber keep in track all clients schedule for the day. The backend can be accessed <a href="https://github.com/savionicodemos/gobarber-backend">here</a> and the frontend
 <a href="https://github.com/savionicodemos/gobarber-web">here</a>.</p>
 
 <p align="center">
@@ -26,7 +26,7 @@ the barber keep in track all clients schedule for the day. The backend can be ac
 - [Styled Components](https://styled-components.com/ "Styled Components")
 - [Date-fns](https://date-fns.org/ "Date-fns")
 - [Unform](https://unform.dev/ "Unform")
-- [React Native Image Picker](https://github.com/react-native-image-picker/react-native-image-picker "React Native Image Picker")
+- [Expo Image Picker](https://docs.expo.dev/versions/latest/sdk/imagepicker/ "Expo Image Picker")
 - [React Native Reanimated](https://github.com/software-mansion/react-native-reanimated "React Native Reanimated")
 - [React Native Gesture Handler](https://github.com/software-mansion/react-native-gesture-handler "React Native Gesture Handler")
 - [React Native Vector Icons](https://github.com/oblador/react-native-vector-icons "React Native Vector Icons")
@@ -64,6 +64,7 @@ $ yarn android
 # If you are using ios run
 $ yarn ios
 ```
+
 <hr>
 
 Made with :heart: by Nicodemos Santos

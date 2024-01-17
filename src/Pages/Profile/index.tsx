@@ -1,6 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/mobile';
+import * as ImagePicker from 'expo-image-picker';
 import React, { useCallback, useRef } from 'react';
 import {
   Alert,
@@ -11,10 +12,6 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {
-  ImageLibraryOptions,
-  launchImageLibrary,
-} from 'react-native-image-picker';
 import Icon from 'react-native-vector-icons/Feather';
 import * as Yup from 'yup';
 
@@ -51,26 +48,30 @@ function Profile() {
   const passwordInputRef = useRef<TextInput>(null);
   const confirmPasswordInputRef = useRef<TextInput>(null);
 
-  const options: ImageLibraryOptions = {
-    mediaType: 'photo',
-  };
-
   const handleUpdateAvatar = useCallback(
-    () =>
-      launchImageLibrary(options, response => {
+    async () => {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [1, 1],
+        quality: 1,
+      });
+
+      if (!result.canceled) {
         const data = new FormData();
 
         data.append('avatar', {
-          uri: response.assets?.[0].uri,
+          uri: result.assets[0].uri,
           type: 'image/jpeg',
           name: `${user.id}.jpg`,
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } as any);
 
-        api.patch('users/avatar', data).then(apiResponse => {
+        api.patchForm('users/avatar', data).then(apiResponse => {
           updateUser(apiResponse.data);
         });
-      }),
+      }
+    },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [updateUser, user.id],
   );
@@ -164,7 +165,7 @@ function Profile() {
             </TouchableOpacity>
           </HeaderContainer>
 
-          <UserAvatarButton onPress={handleUpdateAvatar}>
+          <UserAvatarButton onPress={() => handleUpdateAvatar()}>
             <UserAvatar source={{ uri: user.avatar_url }} />
           </UserAvatarButton>
 

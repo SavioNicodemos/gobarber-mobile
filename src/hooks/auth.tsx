@@ -50,7 +50,9 @@ function AuthProvider({ children }: React.PropsWithChildren) {
       if (token[1] && user[1]) {
         api.defaults.headers.authorization = `Bearer ${token[1]}`;
 
-        setData({ token: token[1], user: JSON.parse(user[1]) });
+        const newUser = updateUserImageUrl(JSON.parse(user[1]));
+
+        setData({ token: token[1], user: newUser });
       }
 
       setLoading(false);
@@ -74,7 +76,9 @@ function AuthProvider({ children }: React.PropsWithChildren) {
 
     api.defaults.headers.authorization = `Bearer ${token}`;
 
-    setData({ token, user });
+    const newUser = updateUserImageUrl(user);
+
+    setData({ token, user: newUser });
   }, []);
 
   const signOut = useCallback(async () => {
@@ -87,13 +91,22 @@ function AuthProvider({ children }: React.PropsWithChildren) {
     async (user: User) => {
       await AsyncStorage.setItem('@GoBarber:user', JSON.stringify(user));
 
+      const newUser = updateUserImageUrl(user);
+
       setData({
         token: data.token,
-        user,
+        user: newUser,
       });
     },
     [data.token],
   );
+
+  function updateUserImageUrl(user: User): User {
+    return {
+      ...user,
+      avatar_url: user.avatar_url.replace('localhost', '192.168.1.74'),
+    };
+  }
 
   const values = useMemo(() => {
     return {
