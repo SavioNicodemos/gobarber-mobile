@@ -24,7 +24,7 @@ import logoImg from '../../assets/logo.png';
 
 import { BackToSignIn, BackToSignInText, Container, Title } from './styles';
 
-const SignUp = () => {
+function SignUp() {
   const formRef = useRef<FormHandles>(null);
   const navigation = useNavigation();
 
@@ -146,6 +146,6 @@ const SignUp = () => {
       </BackToSignIn>
     </>
   );
-};
+}
 
 export default SignUp;

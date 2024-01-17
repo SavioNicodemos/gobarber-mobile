@@ -15,19 +15,21 @@ export type IAppRoutes = {
 
 const App = createStackNavigator<IAppRoutes>();
 
-const AppRoutes = () => (
-  <App.Navigator
-    screenOptions={{
-      headerShown: false,
-      cardStyle: { backgroundColor: '#312e38' },
-    }}
-  >
-    <App.Screen name="Dashboard" component={Dashboard} />
-    <App.Screen name="CreateAppointment" component={CreateAppointment} />
-    <App.Screen name="AppointmentCreated" component={AppointmentCreated} />
+function AppRoutes() {
+  return (
+    <App.Navigator
+      screenOptions={{
+        headerShown: false,
+        cardStyle: { backgroundColor: '#312e38' },
+      }}
+    >
+      <App.Screen name="Dashboard" component={Dashboard} />
+      <App.Screen name="CreateAppointment" component={CreateAppointment} />
+      <App.Screen name="AppointmentCreated" component={AppointmentCreated} />
 
-    <App.Screen name="Profile" component={Profile} />
-  </App.Navigator>
-);
+      <App.Screen name="Profile" component={Profile} />
+    </App.Navigator>
+  );
+}
 
 export default AppRoutes;

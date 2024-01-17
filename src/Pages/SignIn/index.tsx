@@ -39,7 +39,7 @@ interface SignInFormData {
   password: string;
 }
 
-const SignIn = () => {
+function SignIn() {
   const formRef = useRef<FormHandles>(null);
   const passwordInputRef = useRef<TextInput>(null);
   const navigation = useNavigation<SignInNavProps['navigation']>();
@@ -151,6 +151,6 @@ const SignIn = () => {
       </CreateAccountButton>
     </>
   );
-};
+}
 
 export default SignIn;

@@ -28,7 +28,7 @@ export interface Provider {
   avatar_url: string;
 }
 
-const Dashboard = () => {
+function Dashboard() {
   const [providers, setProviders] = useState<Provider[]>([]);
 
   const { user } = useAuth();
@@ -98,6 +98,6 @@ const Dashboard = () => {
       />
     </Container>
   );
-};
+}
 
 export default Dashboard;

@@ -1,3 +1,4 @@
+/* eslint-disable react/function-component-definition */
 import { useField } from '@unform/core';
 import React, {
   forwardRef,
@@ -29,7 +30,7 @@ const Input: React.ForwardRefRenderFunction<InputRef, InputProps> = (
   { name, icon, containerStyle = {}, ...rest },
   ref,
 ) => {
-  const inputElementRef = useRef<any>(null);
+  const inputElementRef = useRef<TextInputRN>(null);
 
   const { registerField, defaultValue = '', fieldName, error } = useField(name);
   const inputValueRef = useRef<InputValueReference>({ value: defaultValue });
@@ -49,7 +50,7 @@ const Input: React.ForwardRefRenderFunction<InputRef, InputProps> = (
 
   useImperativeHandle(ref, () => ({
     focus() {
-      inputElementRef.current.focus();
+      inputElementRef.current?.focus();
     },
   }));
 
@@ -58,13 +59,13 @@ const Input: React.ForwardRefRenderFunction<InputRef, InputProps> = (
       name: fieldName,
       ref: inputValueRef.current,
       path: 'value',
-      setValue(ref: any, value) {
+      setValue(_, value) {
         inputValueRef.current.value = value;
-        inputElementRef.current.setNativeProps({ text: value });
+        inputElementRef.current?.setNativeProps({ text: value });
       },
       clearValue() {
         inputValueRef.current.value = '';
-        inputElementRef.current.clear();
+        inputElementRef.current?.clear();
       },
     });
   }, [fieldName, registerField]);

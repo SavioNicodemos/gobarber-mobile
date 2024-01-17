@@ -13,7 +13,7 @@ import {
   Title,
 } from './styles';
 
-const AppointmentCreated = () => {
+function AppointmentCreated() {
   const { reset } = useNavigation<AppointmentCreatedNavProps['navigation']>();
   const { params } = useRoute<AppointmentCreatedNavProps['route']>();
 
@@ -52,6 +52,6 @@ const AppointmentCreated = () => {
       </OkButton>
     </Container>
   );
-};
+}
 
 export default AppointmentCreated;

@@ -11,16 +11,18 @@ export type IAuthRoutes = {
   SignUp: undefined;
 };
 
-const AuthRoutes = () => (
-  <Auth.Navigator
-    screenOptions={{
-      headerShown: false,
-      cardStyle: { backgroundColor: '#312e38' },
-    }}
-  >
-    <Auth.Screen name="SignIn" component={SignIn} />
-    <Auth.Screen name="SignUp" component={SignUp} />
-  </Auth.Navigator>
-);
+function AuthRoutes() {
+  return (
+    <Auth.Navigator
+      screenOptions={{
+        headerShown: false,
+        cardStyle: { backgroundColor: '#312e38' },
+      }}
+    >
+      <Auth.Screen name="SignIn" component={SignIn} />
+      <Auth.Screen name="SignUp" component={SignUp} />
+    </Auth.Navigator>
+  );
+}
 
 export default AuthRoutes;

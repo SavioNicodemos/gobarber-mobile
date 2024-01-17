@@ -40,7 +40,7 @@ interface ProfileFormData {
   password_confirmation: string;
 }
 
-const Profile = () => {
+function Profile() {
   const { user, updateUser } = useAuth();
   const formRef = useRef<FormHandles>(null);
   const navigation = useNavigation();
@@ -56,19 +56,21 @@ const Profile = () => {
 
   const handleUpdateAvatar = useCallback(
     () =>
-      launchImageLibrary(options, (response) => {
+      launchImageLibrary(options, response => {
         const data = new FormData();
 
         data.append('avatar', {
           uri: response.assets?.[0].uri,
           type: 'image/jpeg',
           name: `${user.id}.jpg`,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } as any);
 
         api.patch('users/avatar', data).then(apiResponse => {
           updateUser(apiResponse.data);
         });
       }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [updateUser, user.id],
   );
 
@@ -85,18 +87,17 @@ const Profile = () => {
           old_password: Yup.string(),
           password: Yup.string().when(
             'old_password',
-            ([old_password], innerSchema) => {
-              return old_password
+            ([old_password], innerSchema) =>
+              old_password
                 ? innerSchema.required('Campo obrigatório')
-                : innerSchema.notRequired();
-            },
+                : innerSchema.notRequired(),
           ),
           password_confirmation: Yup.string()
-            .when('old_password', ([old_password], innerSchema) => {
-              return old_password
+            .when('old_password', ([old_password], innerSchema) =>
+              old_password
                 ? innerSchema.required('Campo obrigatório')
-                : innerSchema.notRequired();
-            })
+                : innerSchema.notRequired(),
+            )
             .oneOf([Yup.ref('password')], 'Confirmação incorreta'),
         });
 
@@ -104,13 +105,8 @@ const Profile = () => {
           abortEarly: false,
         });
 
-        const {
-          name,
-          email,
-          old_password,
-          password,
-          password_confirmation,
-        } = data;
+        const { name, email, old_password, password, password_confirmation } =
+          data;
 
         const formData = {
           name,
@@ -142,105 +138,100 @@ const Profile = () => {
         );
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [navigation],
   );
 
   return (
-    <>
-      <KeyboardAvoidingView
-        style={{ flex: 1 }}
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-        enabled
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      enabled
+    >
+      <ScrollView
+        keyboardShouldPersistTaps="handled"
+        contentContainerStyle={{ flex: 1 }}
       >
-        <ScrollView
-          keyboardShouldPersistTaps="handled"
-          contentContainerStyle={{ flex: 1 }}
-        >
-          <Container>
-            <BackButton onPress={navigation.goBack}>
-              <Icon name="chevron-left" size={24} color="#999591" />
-            </BackButton>
-            <UserAvatarButton onPress={handleUpdateAvatar}>
-              <UserAvatar source={{ uri: user.avatar_url }} />
-            </UserAvatarButton>
+        <Container>
+          <BackButton onPress={navigation.goBack}>
+            <Icon name="chevron-left" size={24} color="#999591" />
+          </BackButton>
+          <UserAvatarButton onPress={handleUpdateAvatar}>
+            <UserAvatar source={{ uri: user.avatar_url }} />
+          </UserAvatarButton>
 
-            <View>
-              <Title>Meu Perfil</Title>
-            </View>
+          <View>
+            <Title>Meu Perfil</Title>
+          </View>
 
-            <Form
-              initialData={user}
-              ref={formRef}
-              onSubmit={handleUpdateProfile}
-            >
-              <Input
-                autoCapitalize="words"
-                name="name"
-                icon="user"
-                placeholder="Nome"
-                returnKeyType="next"
-                onSubmitEditing={() => {
-                  emailInputRef.current?.focus();
-                }}
-              />
-              <Input
-                ref={emailInputRef}
-                keyboardType="email-address"
-                autoCapitalize="none"
-                autoCorrect={false}
-                name="email"
-                icon="mail"
-                placeholder="E-mail"
-                returnKeyType="next"
-                onSubmitEditing={() => {
-                  oldPasswordInputRef.current?.focus();
-                }}
-              />
-              <Input
-                ref={oldPasswordInputRef}
-                secureTextEntry
-                name="old_password"
-                icon="lock"
-                placeholder="Senha atual"
-                textContentType="newPassword"
-                returnKeyType="next"
-                containerStyle={{ marginTop: 16 }}
-                onSubmitEditing={() => {
-                  passwordInputRef.current?.focus();
-                }}
-              />
-              <Input
-                ref={passwordInputRef}
-                secureTextEntry
-                name="password"
-                icon="lock"
-                placeholder="Nova senha"
-                textContentType="newPassword"
-                returnKeyType="next"
-                onSubmitEditing={() => {
-                  confirmPasswordInputRef.current?.focus();
-                }}
-              />
-              <Input
-                ref={confirmPasswordInputRef}
-                secureTextEntry
-                name="password"
-                icon="lock"
-                placeholder="Confirmação de senha"
-                textContentType="newPassword"
-                returnKeyType="send"
-                onSubmitEditing={() => formRef.current?.submitForm()}
-              />
-            </Form>
+          <Form initialData={user} ref={formRef} onSubmit={handleUpdateProfile}>
+            <Input
+              autoCapitalize="words"
+              name="name"
+              icon="user"
+              placeholder="Nome"
+              returnKeyType="next"
+              onSubmitEditing={() => {
+                emailInputRef.current?.focus();
+              }}
+            />
+            <Input
+              ref={emailInputRef}
+              keyboardType="email-address"
+              autoCapitalize="none"
+              autoCorrect={false}
+              name="email"
+              icon="mail"
+              placeholder="E-mail"
+              returnKeyType="next"
+              onSubmitEditing={() => {
+                oldPasswordInputRef.current?.focus();
+              }}
+            />
+            <Input
+              ref={oldPasswordInputRef}
+              secureTextEntry
+              name="old_password"
+              icon="lock"
+              placeholder="Senha atual"
+              textContentType="newPassword"
+              returnKeyType="next"
+              containerStyle={{ marginTop: 16 }}
+              onSubmitEditing={() => {
+                passwordInputRef.current?.focus();
+              }}
+            />
+            <Input
+              ref={passwordInputRef}
+              secureTextEntry
+              name="password"
+              icon="lock"
+              placeholder="Nova senha"
+              textContentType="newPassword"
+              returnKeyType="next"
+              onSubmitEditing={() => {
+                confirmPasswordInputRef.current?.focus();
+              }}
+            />
+            <Input
+              ref={confirmPasswordInputRef}
+              secureTextEntry
+              name="password"
+              icon="lock"
+              placeholder="Confirmação de senha"
+              textContentType="newPassword"
+              returnKeyType="send"
+              onSubmitEditing={() => formRef.current?.submitForm()}
+            />
+          </Form>
 
-            <Button onPress={() => formRef.current?.submitForm()}>
-              Confirmar mudanças
-            </Button>
-          </Container>
-        </ScrollView>
-      </KeyboardAvoidingView>
-    </>
+          <Button onPress={() => formRef.current?.submitForm()}>
+            Confirmar mudanças
+          </Button>
+        </Container>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
-};
+}
 
 export default Profile;

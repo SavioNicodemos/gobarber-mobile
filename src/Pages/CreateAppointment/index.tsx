@@ -45,10 +45,11 @@ interface AvailabilityItem {
   available: boolean;
 }
 
-const CreateAppointment = () => {
+function CreateAppointment() {
   const route = useRoute<CreateAppointmentNavProps['route']>();
   const { user } = useAuth();
-  const { goBack, navigate } = useNavigation<CreateAppointmentNavProps['navigation']>();
+  const { goBack, navigate } =
+    useNavigation<CreateAppointmentNavProps['navigation']>();
   const routeParams = route.params;
 
   const [availability, setAvailability] = useState<AvailabilityItem[]>([]);
@@ -92,7 +93,7 @@ const CreateAppointment = () => {
     setSelectedProvider(providerId);
   }, []);
 
-  const handleDateChange = useCallback((event: any, date: Date | undefined) => {
+  const handleDateChange = useCallback((date: Date | undefined) => {
     if (Platform.OS === 'android') {
       setShowDatePicker(false);
     }
@@ -202,7 +203,7 @@ const CreateAppointment = () => {
               {...(Platform.OS === 'ios' && { textColor: '#f4ede8' })} // < nessa linha
               mode="date"
               display={Platform.OS === 'android' ? 'calendar' : 'spinner'}
-              onChange={handleDateChange}
+              onChange={(_, date) => handleDateChange(date)}
               value={selectedDate}
               is24Hour
             />
@@ -259,6 +260,6 @@ const CreateAppointment = () => {
       </Content>
     </Container>
   );
-};
+}
 
 export default CreateAppointment;

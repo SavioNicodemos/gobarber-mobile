@@ -4,6 +4,7 @@ import React, {
   useCallback,
   useContext,
   useEffect,
+  useMemo,
   useState,
 } from 'react';
 import api from '../services/api';
@@ -35,7 +36,7 @@ interface AuthContextData {
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
-const AuthProvider = ({ children }: React.PropsWithChildren) => {
+function AuthProvider({ children }: React.PropsWithChildren) {
   const [data, setData] = useState<AuthState>({} as AuthState);
   const [loading, setLoading] = useState(true);
 
@@ -94,14 +95,18 @@ const AuthProvider = ({ children }: React.PropsWithChildren) => {
     [data.token],
   );
 
-  return (
-    <AuthContext.Provider
-      value={{ user: data.user, signIn, signOut, loading, updateUser }}
-    >
-      {children}
-    </AuthContext.Provider>
-  );
-};
+  const values = useMemo(() => {
+    return {
+      user: data.user,
+      signIn,
+      signOut,
+      loading,
+      updateUser,
+    };
+  }, [data.user, signIn, signOut, loading, updateUser]);
+
+  return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;
+}
 
 function useAuth(): AuthContextData {
   const context = useContext(AuthContext);
