@@ -155,7 +155,19 @@ function Profile() {
               <Icon name="chevron-left" size={24} color="#999591" />
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={() => signOut()}>
+            <TouchableOpacity
+              onPress={() =>
+                Alert.alert('Sair', 'Você deseja realmente sair do GoBarber?', [
+                  {
+                    text: 'Sim',
+                    onPress: () => signOut(),
+                  },
+                  {
+                    text: 'Não',
+                  },
+                ])
+              }
+            >
               <Icon name="power" size={24} color="#999591" />
             </TouchableOpacity>
           </HeaderContainer>
