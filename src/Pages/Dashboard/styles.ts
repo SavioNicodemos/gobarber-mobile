@@ -29,12 +29,6 @@ export const UserName = styled.Text`
 
 export const ProfileButton = styled.TouchableOpacity``;
 
-export const UserAvatar = styled.Image`
-  width: 56px;
-  height: 56px;
-  border-radius: 28px;
-`;
-
 export const ProvidersListTitle = styled.Text`
   font-family: 'RobotoSlab-Medium';
   color: #f4ede8;
@@ -49,12 +43,6 @@ export const ProviderContainer = styled(RectButton)`
   margin-bottom: 16px;
   background: #3e3b47;
   border-radius: 10px;
-`;
-
-export const ProviderAvatar = styled.Image`
-  width: 72px;
-  height: 72px;
-  border-radius: 36px;
 `;
 
 export const ProviderInfo = styled.View`

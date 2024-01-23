@@ -21,14 +21,9 @@ import getValidationErrors from '../../utils/getValidationErrors';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
 
+import { Avatar } from '../../components/Avatar';
 import { useAuth } from '../../hooks/auth';
-import {
-  Container,
-  HeaderContainer,
-  Title,
-  UserAvatar,
-  UserAvatarButton,
-} from './styles';
+import { Container, HeaderContainer, Title, UserAvatarButton } from './styles';
 
 interface ProfileFormData {
   name: string;
@@ -166,7 +161,11 @@ function Profile() {
           </HeaderContainer>
 
           <UserAvatarButton onPress={() => handleUpdateAvatar()}>
-            <UserAvatar source={{ uri: user.avatar_url }} />
+            <Avatar
+              size={186}
+              source={user.avatar_url}
+              style={{ alignSelf: 'center' }}
+            />
           </UserAvatarButton>
 
           <View>

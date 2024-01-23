@@ -9,6 +9,7 @@ import { useAuth } from '../../hooks/auth';
 import api from '../../services/api';
 
 import { CreateAppointmentNavProps } from '../../@dtos/routes';
+import { Avatar } from '../../components/Avatar';
 import {
   BackButton,
   Calendar,
@@ -22,7 +23,6 @@ import {
   HourText,
   OpenDatePickerButton,
   OpenDatePickerButtonText,
-  ProviderAvatar,
   ProviderContainer,
   ProviderName,
   ProvidersListContainer,
@@ -31,7 +31,6 @@ import {
   SectionContent,
   SectionTitle,
   Title,
-  UserAvatar,
 } from './styles';
 
 export interface Provider {
@@ -115,7 +114,7 @@ function CreateAppointment() {
     try {
       const date = new Date(selectedDate);
 
-      date.setHours(selectedHour + 3);
+      date.setHours(selectedHour);
       date.setMinutes(0);
 
       await api.post('appointments', {
@@ -161,7 +160,11 @@ function CreateAppointment() {
 
         <HeaderTitle>Cabeleireiros</HeaderTitle>
 
-        <UserAvatar source={{ uri: user.avatar_url }} />
+        <Avatar
+          size={56}
+          source={user.avatar_url}
+          style={{ marginLeft: 'auto' }}
+        />
       </Header>
 
       <Content>
@@ -181,7 +184,7 @@ function CreateAppointment() {
                 selected={provider.id === selectedProvider}
                 onPress={() => handleSelectProvider(provider.id)}
               >
-                <ProviderAvatar source={{ uri: provider.avatar_url }} />
+                <Avatar size={32} source={provider.avatar_url} />
                 <ProviderName selected={provider.id === selectedProvider}>
                   {provider.name}
                 </ProviderName>

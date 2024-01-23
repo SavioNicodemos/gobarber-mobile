@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/Feather';
 
 import { FlatList } from 'react-native';
 import { DashboardNavProps } from '../../@dtos/routes';
+import { Avatar } from '../../components/Avatar';
 import { useAuth } from '../../hooks/auth';
 import api from '../../services/api';
 import {
@@ -11,14 +12,12 @@ import {
   Header,
   HeaderTitle,
   ProfileButton,
-  ProviderAvatar,
   ProviderContainer,
   ProviderInfo,
   ProviderMeta,
   ProviderMetaText,
   ProviderName,
   ProvidersListTitle,
-  UserAvatar,
   UserName,
 } from './styles';
 
@@ -61,7 +60,7 @@ function Dashboard() {
         </HeaderTitle>
 
         <ProfileButton onPress={navigateToProfile}>
-          <UserAvatar source={{ uri: user.avatar_url }} />
+          <Avatar size={56} source={user.avatar_url} />
         </ProfileButton>
       </Header>
 
@@ -78,7 +77,7 @@ function Dashboard() {
         }
         renderItem={({ item: provider }) => (
           <ProviderContainer onPress={() => handleSelectProvider(provider.id)}>
-            <ProviderAvatar source={{ uri: provider.avatar_url }} />
+            <Avatar size={72} source={provider.avatar_url} />
 
             <ProviderInfo>
               <ProviderName>{provider.name}</ProviderName>

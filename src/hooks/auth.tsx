@@ -13,7 +13,7 @@ interface User {
   id: string;
   name: string;
   email: string;
-  avatar_url: string;
+  avatar_url: string | null;
 }
 
 interface AuthState {
@@ -41,7 +41,7 @@ function AuthProvider({ children }: React.PropsWithChildren) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function loadStoragedData(): Promise<void> {
+    async function loadStoredData(): Promise<void> {
       const [token, user] = await AsyncStorage.multiGet([
         '@GoBarber:token',
         '@GoBarber:user',
@@ -58,7 +58,7 @@ function AuthProvider({ children }: React.PropsWithChildren) {
       setLoading(false);
     }
 
-    loadStoragedData();
+    loadStoredData();
   }, []);
 
   const signIn = useCallback(async ({ email, password }: SignInCredentials) => {
@@ -104,7 +104,7 @@ function AuthProvider({ children }: React.PropsWithChildren) {
   function updateUserImageUrl(user: User): User {
     return {
       ...user,
-      avatar_url: user.avatar_url.replace('localhost', '192.168.1.74'),
+      avatar_url: user.avatar_url,
     };
   }
 
